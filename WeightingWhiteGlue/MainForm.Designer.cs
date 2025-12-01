@@ -57,17 +57,26 @@ namespace WeightingWhiteGlue
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
+            this.cmbPlant = new System.Windows.Forms.ComboBox();
+            this.lblPlant = new System.Windows.Forms.Label();
+            this.cmbConvertMachine = new System.Windows.Forms.ComboBox();
+            this.lblConvertMachine = new System.Windows.Forms.Label();
+            this.lblWaterRate = new System.Windows.Forms.Label();
+            this.numWaterRate = new System.Windows.Forms.NumericUpDown();
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
             this.gbRecords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecords)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).BeginInit();
             this.SuspendLayout();
             // 
             // gbConnection
             // 
-            this.gbConnection.Controls.Add(this.lblPort);
-            this.gbConnection.Controls.Add(this.lblBaud);
+            this.gbConnection.Controls.Add(this.lblConvertMachine);
+            this.gbConnection.Controls.Add(this.lblPlant);
+            this.gbConnection.Controls.Add(this.cmbConvertMachine);
+            this.gbConnection.Controls.Add(this.cmbPlant);
             this.gbConnection.Controls.Add(this.btnConnect);
             this.gbConnection.Controls.Add(this.btnDisconnect);
             this.gbConnection.Location = new System.Drawing.Point(10, 10);
@@ -80,24 +89,24 @@ namespace WeightingWhiteGlue
             // lblPort
             // 
             this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(10, 25);
+            this.lblPort.Location = new System.Drawing.Point(18, 139);
             this.lblPort.Name = "lblPort";
-            this.lblPort.Size = new System.Drawing.Size(35, 12);
+            this.lblPort.Size = new System.Drawing.Size(59, 12);
             this.lblPort.TabIndex = 0;
-            this.lblPort.Text = "串口:";
+            this.lblPort.Text = "串口:com2";
             // 
             // lblBaud
             // 
             this.lblBaud.AutoSize = true;
-            this.lblBaud.Location = new System.Drawing.Point(123, 25);
+            this.lblBaud.Location = new System.Drawing.Point(82, 139);
             this.lblBaud.Name = "lblBaud";
-            this.lblBaud.Size = new System.Drawing.Size(47, 12);
+            this.lblBaud.Size = new System.Drawing.Size(71, 12);
             this.lblBaud.TabIndex = 2;
-            this.lblBaud.Text = "波特率:";
+            this.lblBaud.Text = "波特率:1200";
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(11, 50);
+            this.btnConnect.Location = new System.Drawing.Point(41, 65);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(85, 25);
             this.btnConnect.TabIndex = 4;
@@ -108,7 +117,7 @@ namespace WeightingWhiteGlue
             // btnDisconnect
             // 
             this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Location = new System.Drawing.Point(106, 50);
+            this.btnDisconnect.Location = new System.Drawing.Point(136, 65);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(85, 25);
             this.btnDisconnect.TabIndex = 5;
@@ -171,6 +180,8 @@ namespace WeightingWhiteGlue
             // 
             // gbOperation
             // 
+            this.gbOperation.Controls.Add(this.numWaterRate);
+            this.gbOperation.Controls.Add(this.lblWaterRate);
             this.gbOperation.Controls.Add(this.btnZero);
             this.gbOperation.Controls.Add(this.btnTare);
             this.gbOperation.Controls.Add(this.btnRead);
@@ -197,7 +208,7 @@ namespace WeightingWhiteGlue
             // btnTare
             // 
             this.btnTare.Enabled = false;
-            this.btnTare.Location = new System.Drawing.Point(200, 84);
+            this.btnTare.Location = new System.Drawing.Point(101, 84);
             this.btnTare.Name = "btnTare";
             this.btnTare.Size = new System.Drawing.Size(85, 30);
             this.btnTare.TabIndex = 1;
@@ -209,9 +220,9 @@ namespace WeightingWhiteGlue
             // btnRead
             // 
             this.btnRead.Enabled = false;
-            this.btnRead.Location = new System.Drawing.Point(10, 22);
+            this.btnRead.Location = new System.Drawing.Point(149, 20);
             this.btnRead.Name = "btnRead";
-            this.btnRead.Size = new System.Drawing.Size(275, 37);
+            this.btnRead.Size = new System.Drawing.Size(138, 37);
             this.btnRead.TabIndex = 2;
             this.btnRead.Text = "读取 (R)";
             this.btnRead.UseVisualStyleBackColor = true;
@@ -232,9 +243,9 @@ namespace WeightingWhiteGlue
             // lblStatus
             // 
             this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblStatus.Location = new System.Drawing.Point(10, 135);
+            this.lblStatus.Location = new System.Drawing.Point(159, 135);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(970, 20);
+            this.lblStatus.Size = new System.Drawing.Size(821, 20);
             this.lblStatus.TabIndex = 3;
             this.lblStatus.Text = "状态: 未连接";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -303,11 +314,65 @@ namespace WeightingWhiteGlue
             this.autoReadTimer.Interval = 1000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
             // 
+            // cmbPlant
+            // 
+            this.cmbPlant.FormattingEnabled = true;
+            this.cmbPlant.Location = new System.Drawing.Point(65, 25);
+            this.cmbPlant.Name = "cmbPlant";
+            this.cmbPlant.Size = new System.Drawing.Size(49, 20);
+            this.cmbPlant.TabIndex = 6;
+            // 
+            // lblPlant
+            // 
+            this.lblPlant.AutoSize = true;
+            this.lblPlant.Location = new System.Drawing.Point(24, 28);
+            this.lblPlant.Name = "lblPlant";
+            this.lblPlant.Size = new System.Drawing.Size(35, 12);
+            this.lblPlant.TabIndex = 7;
+            this.lblPlant.Text = "厂区:";
+            // 
+            // cmbConvertMachine
+            // 
+            this.cmbConvertMachine.FormattingEnabled = true;
+            this.cmbConvertMachine.Location = new System.Drawing.Point(172, 25);
+            this.cmbConvertMachine.Name = "cmbConvertMachine";
+            this.cmbConvertMachine.Size = new System.Drawing.Size(49, 20);
+            this.cmbConvertMachine.TabIndex = 6;
+            // 
+            // lblConvertMachine
+            // 
+            this.lblConvertMachine.AutoSize = true;
+            this.lblConvertMachine.Location = new System.Drawing.Point(131, 28);
+            this.lblConvertMachine.Name = "lblConvertMachine";
+            this.lblConvertMachine.Size = new System.Drawing.Size(35, 12);
+            this.lblConvertMachine.TabIndex = 7;
+            this.lblConvertMachine.Text = "机台:";
+            // 
+            // lblWaterRate
+            // 
+            this.lblWaterRate.AutoSize = true;
+            this.lblWaterRate.Location = new System.Drawing.Point(8, 28);
+            this.lblWaterRate.Name = "lblWaterRate";
+            this.lblWaterRate.Size = new System.Drawing.Size(59, 12);
+            this.lblWaterRate.TabIndex = 4;
+            this.lblWaterRate.Text = "注水量kg:";
+            // 
+            // numWaterRate
+            // 
+            this.numWaterRate.DecimalPlaces = 3;
+            this.numWaterRate.Enabled = false;
+            this.numWaterRate.Location = new System.Drawing.Point(73, 24);
+            this.numWaterRate.Name = "numWaterRate";
+            this.numWaterRate.Size = new System.Drawing.Size(70, 21);
+            this.numWaterRate.TabIndex = 6;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 700);
+            this.Controls.Add(this.lblBaud);
+            this.Controls.Add(this.lblPort);
             this.Controls.Add(this.gbRecords);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.gbOperation);
@@ -324,7 +389,9 @@ namespace WeightingWhiteGlue
             this.gbOperation.PerformLayout();
             this.gbRecords.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecords)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -359,5 +426,11 @@ namespace WeightingWhiteGlue
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
 
         private System.Windows.Forms.Timer autoReadTimer;
+        private Label lblPlant;
+        private ComboBox cmbPlant;
+        private Label lblConvertMachine;
+        private ComboBox cmbConvertMachine;
+        private Label lblWaterRate;
+        private NumericUpDown numWaterRate;
     }
 }

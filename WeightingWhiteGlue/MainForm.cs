@@ -50,13 +50,28 @@ namespace WeightingWhiteGlue
         public MainForm()
         {
             InitializeComponent();
+            InitPlantMachine();
             InitializeSerialPort();
             weightRecords = new List<WeightRecord>();
-            lblPort.Text = "串口：" + Utils.GetParameterValue("Port");
-            lblBaud.Text = "波特率：" + Utils.GetParameterValue("BaudRate");
+            lblPort.Text = "串口:" + Utils.GetParameterValue("Port");
+            lblBaud.Text = "波特率:" + Utils.GetParameterValue("BaudRate");
 
             debounceTimer.Interval = DebounceInterval;
             debounceTimer.Tick += DebounceTimer_Tick;
+        }
+
+        private void InitPlantMachine()
+        {
+            // 厂区初始化
+            string plant = Utils.GetParameterValue("Plant") ?? "W6";
+            List<string> plantList = Utils.GetParameterValue("Plants")?.Split('|').ToList();
+            cmbPlant.Items.Clear();
+            cmbPlant.Items.AddRange(plantList?.ToArray());
+            cmbPlant.SelectedItem = plant;
+            // 机台初始化
+            List<string> machineList = Utils.GetParameterValue($"{plant}ConvertMachine")?.Split('|').ToList();
+            cmbConvertMachine.Items.Clear();
+            cmbConvertMachine.Items.AddRange(machineList?.ToArray());
         }
 
         private void InitializeSerialPort()
@@ -77,17 +92,25 @@ namespace WeightingWhiteGlue
         {
             try
             {
+                if (string.IsNullOrEmpty(cmbPlant.Text) || string.IsNullOrEmpty(cmbConvertMachine.Text)) 
+                { 
+                    MessageBox.Show("请先选择厂区和机台！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 serialPort.PortName = Utils.GetParameterValue("Port") ?? "com2";
-                serialPort.BaudRate = Utils.GetParameterValue("BaudRate") != null ? int.Parse(Utils.GetParameterValue("BaudRate")) : 1200;
+                serialPort.BaudRate = Utils.GetParameterValue("BaudRate") != null ? Convert.ToInt32(Utils.GetParameterValue("BaudRate")) : 1200;
                 serialPort.Open();
 
+                cmbPlant.Enabled = false;
+                cmbConvertMachine.Enabled = false;
                 btnConnect.Enabled = false;
                 btnDisconnect.Enabled = true;
                 btnZero.Enabled = true;
                 btnTare.Enabled = true;
                 btnRead.Enabled = true;
-                btnExport.Enabled = true;
                 chkAutoRead.Enabled = true;
+                numWaterRate.Enabled = true;
 
                 lblStatus.Text = $"状态: 已连接 - {serialPort.PortName} ({serialPort.BaudRate})";
                 lblStatus.ForeColor = Color.Green;
@@ -112,12 +135,15 @@ namespace WeightingWhiteGlue
                     serialPort.Close();
                 }
 
+                cmbPlant.Enabled = true;
+                cmbConvertMachine.Enabled = true;
                 btnConnect.Enabled = true;
                 btnDisconnect.Enabled = false;
                 btnZero.Enabled = false;
                 btnTare.Enabled = false;
                 btnRead.Enabled = false;
                 chkAutoRead.Enabled = false;
+                numWaterRate.Enabled = false;
 
                 lblStatus.Text = "状态: 未连接";
                 lblStatus.ForeColor = Color.Black;
