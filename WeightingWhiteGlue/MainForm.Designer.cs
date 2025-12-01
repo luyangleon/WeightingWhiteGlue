@@ -48,7 +48,6 @@ namespace WeightingWhiteGlue
             this.btnTare = new System.Windows.Forms.Button();
             this.btnRead = new System.Windows.Forms.Button();
             this.chkAutoRead = new System.Windows.Forms.CheckBox();
-            this.btnExport = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             this.gbRecords = new System.Windows.Forms.GroupBox();
             this.dgvRecords = new System.Windows.Forms.DataGridView();
@@ -176,7 +175,6 @@ namespace WeightingWhiteGlue
             this.gbOperation.Controls.Add(this.btnTare);
             this.gbOperation.Controls.Add(this.btnRead);
             this.gbOperation.Controls.Add(this.chkAutoRead);
-            this.gbOperation.Controls.Add(this.btnExport);
             this.gbOperation.Location = new System.Drawing.Point(680, 10);
             this.gbOperation.Name = "gbOperation";
             this.gbOperation.Size = new System.Drawing.Size(300, 120);
@@ -187,7 +185,7 @@ namespace WeightingWhiteGlue
             // btnZero
             // 
             this.btnZero.Enabled = false;
-            this.btnZero.Location = new System.Drawing.Point(104, 84);
+            this.btnZero.Location = new System.Drawing.Point(10, 84);
             this.btnZero.Name = "btnZero";
             this.btnZero.Size = new System.Drawing.Size(85, 30);
             this.btnZero.TabIndex = 0;
@@ -230,17 +228,6 @@ namespace WeightingWhiteGlue
             this.chkAutoRead.Text = "自动读取";
             this.chkAutoRead.UseVisualStyleBackColor = true;
             this.chkAutoRead.CheckedChanged += new System.EventHandler(this.ChkAutoRead_CheckedChanged);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(10, 84);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(85, 30);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "导出Excel";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Visible = false;
             // 
             // lblStatus
             // 
@@ -360,7 +347,6 @@ namespace WeightingWhiteGlue
         private System.Windows.Forms.Button btnTare;
         private System.Windows.Forms.Button btnRead;
         private System.Windows.Forms.CheckBox chkAutoRead;
-        private System.Windows.Forms.Button btnExport;
 
         private System.Windows.Forms.Label lblStatus;
 

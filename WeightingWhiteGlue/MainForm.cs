@@ -483,44 +483,6 @@ namespace WeightingWhiteGlue
             return WeightTypeNames.TryGetValue(type, out string name) ? name : type;
         }
 
-        private void BtnExport_Click(object sender, EventArgs e)
-        {
-            if (weightRecords.Count == 0)
-            {
-                MessageBox.Show("没有可导出的记录！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = "CSV文件|*.csv|文本文件|*.txt",
-                FileName = $"称重记录_{DateTime.Now:yyyyMMddHHmmss}"
-            };
-
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
-                    {
-                        sw.WriteLine("时间,重量,单位,类型,状态");
-                        foreach (WeightRecord record in weightRecords)
-                        {
-                            sw.WriteLine($"{record.Time:yyyy-MM-dd HH:mm:ss},{record.Weight},{record.Unit},{GetWeightTypeName(record.Type)},{record.Status}");
-                        }
-                    }
-                    MessageBox.Show("导出成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    lblStatus.Text = $"状态: 已导出 {weightRecords.Count} 条记录到 {sfd.FileName}";
-                    Log($"导出记录成功: {weightRecords.Count} 条 -> {sfd.FileName}");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"导出失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Log($"导出记录失败: {ex.Message}");
-                }
-            }
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Log("程序关闭");
