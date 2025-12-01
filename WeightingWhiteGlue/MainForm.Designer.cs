@@ -35,9 +35,7 @@ namespace WeightingWhiteGlue
             this.components = new System.ComponentModel.Container();
             this.gbConnection = new System.Windows.Forms.GroupBox();
             this.lblPort = new System.Windows.Forms.Label();
-            this.cmbPorts = new System.Windows.Forms.ComboBox();
             this.lblBaud = new System.Windows.Forms.Label();
-            this.cmbBaudRate = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.gbDisplay = new System.Windows.Forms.GroupBox();
@@ -70,9 +68,7 @@ namespace WeightingWhiteGlue
             // gbConnection
             // 
             this.gbConnection.Controls.Add(this.lblPort);
-            this.gbConnection.Controls.Add(this.cmbPorts);
             this.gbConnection.Controls.Add(this.lblBaud);
-            this.gbConnection.Controls.Add(this.cmbBaudRate);
             this.gbConnection.Controls.Add(this.btnConnect);
             this.gbConnection.Controls.Add(this.btnDisconnect);
             this.gbConnection.Location = new System.Drawing.Point(10, 10);
@@ -91,41 +87,18 @@ namespace WeightingWhiteGlue
             this.lblPort.TabIndex = 0;
             this.lblPort.Text = "串口:";
             // 
-            // cmbPorts
-            // 
-            this.cmbPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPorts.FormattingEnabled = true;
-            this.cmbPorts.Location = new System.Drawing.Point(80, 22);
-            this.cmbPorts.Name = "cmbPorts";
-            this.cmbPorts.Size = new System.Drawing.Size(100, 20);
-            this.cmbPorts.TabIndex = 1;
-            // 
             // lblBaud
             // 
             this.lblBaud.AutoSize = true;
-            this.lblBaud.Location = new System.Drawing.Point(10, 55);
+            this.lblBaud.Location = new System.Drawing.Point(123, 25);
             this.lblBaud.Name = "lblBaud";
             this.lblBaud.Size = new System.Drawing.Size(47, 12);
             this.lblBaud.TabIndex = 2;
             this.lblBaud.Text = "波特率:";
             // 
-            // cmbBaudRate
-            // 
-            this.cmbBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbBaudRate.FormattingEnabled = true;
-            this.cmbBaudRate.Items.AddRange(new object[] {
-            "1200",
-            "2400",
-            "4800",
-            "9600"});
-            this.cmbBaudRate.Location = new System.Drawing.Point(80, 52);
-            this.cmbBaudRate.Name = "cmbBaudRate";
-            this.cmbBaudRate.Size = new System.Drawing.Size(100, 20);
-            this.cmbBaudRate.TabIndex = 3;
-            // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(10, 85);
+            this.btnConnect.Location = new System.Drawing.Point(11, 50);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(85, 25);
             this.btnConnect.TabIndex = 4;
@@ -136,7 +109,7 @@ namespace WeightingWhiteGlue
             // btnDisconnect
             // 
             this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Location = new System.Drawing.Point(105, 85);
+            this.btnDisconnect.Location = new System.Drawing.Point(106, 50);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(85, 25);
             this.btnDisconnect.TabIndex = 5;
@@ -372,9 +345,7 @@ namespace WeightingWhiteGlue
 
         private System.Windows.Forms.GroupBox gbConnection;
         private System.Windows.Forms.Label lblPort;
-        private System.Windows.Forms.ComboBox cmbPorts;
         private System.Windows.Forms.Label lblBaud;
-        private System.Windows.Forms.ComboBox cmbBaudRate;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnDisconnect;
 

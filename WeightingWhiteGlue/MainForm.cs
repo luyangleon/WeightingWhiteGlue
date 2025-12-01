@@ -52,9 +52,9 @@ namespace WeightingWhiteGlue
             InitializeComponent();
             InitializeSerialPort();
             weightRecords = new List<WeightRecord>();
-            LoadAvailablePorts();
-            this.cmbBaudRate.SelectedIndex = 0;
-            
+            lblPort.Text = "串口：" + Utils.GetParameterValue("Port");
+            lblBaud.Text = "波特率：" + Utils.GetParameterValue("BaudRate");
+
             debounceTimer.Interval = DebounceInterval;
             debounceTimer.Tick += DebounceTimer_Tick;
         }
@@ -73,33 +73,12 @@ namespace WeightingWhiteGlue
             serialPort.DataReceived += SerialPort_DataReceived;
         }
 
-        private void LoadAvailablePorts()
-        {
-            cmbPorts.Items.Clear();
-            string[] ports = SerialPort.GetPortNames();
-            if (ports.Length > 0)
-            {
-                cmbPorts.Items.AddRange(ports);
-                cmbPorts.SelectedIndex = 0;
-            }
-            else
-            {
-                MessageBox.Show("未检测到可用串口！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
         private void BtnConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                if (cmbPorts.SelectedItem == null)
-                {
-                    MessageBox.Show("请选择串口！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                serialPort.PortName = cmbPorts.SelectedItem.ToString();
-                serialPort.BaudRate = int.Parse(cmbBaudRate.SelectedItem.ToString());
+                serialPort.PortName = Utils.GetParameterValue("Port") ?? "com2";
+                serialPort.BaudRate = Utils.GetParameterValue("BaudRate") != null ? int.Parse(Utils.GetParameterValue("BaudRate")) : 1200;
                 serialPort.Open();
 
                 btnConnect.Enabled = false;
@@ -109,8 +88,6 @@ namespace WeightingWhiteGlue
                 btnRead.Enabled = true;
                 btnExport.Enabled = true;
                 chkAutoRead.Enabled = true;
-                cmbPorts.Enabled = false;
-                cmbBaudRate.Enabled = false;
 
                 lblStatus.Text = $"状态: 已连接 - {serialPort.PortName} ({serialPort.BaudRate})";
                 lblStatus.ForeColor = Color.Green;
@@ -141,8 +118,6 @@ namespace WeightingWhiteGlue
                 btnTare.Enabled = false;
                 btnRead.Enabled = false;
                 chkAutoRead.Enabled = false;
-                cmbPorts.Enabled = true;
-                cmbBaudRate.Enabled = true;
 
                 lblStatus.Text = "状态: 未连接";
                 lblStatus.ForeColor = Color.Black;
