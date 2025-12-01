@@ -1,0 +1,131 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|d:\\ly\\workcode\\\u767D\u7CCA\u79F0\u91CD\\weightingwhiteglue\\weightingwhiteglue\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|solutionrelative:weightingwhiteglue\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|d:\\ly\\workcode\\\u767D\u7CCA\u79F0\u91CD\\weightingwhiteglue\\weightingwhiteglue\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|solutionrelative:weightingwhiteglue\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\weightingwhiteglue\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|solutionrelative:weightingwhiteglue\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|d:\\ly\\workcode\\\u767D\u7CCA\u79F0\u91CD\\weightingwhiteglue\\weightingwhiteglue\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBAFA1A6-DBEF-420F-AEA5-028887175AC3}|WeightingWhiteGlue\\WeightingWhiteGlue.csproj|solutionrelative:weightingwhiteglue\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Utils.cs",
+              "DocumentMoniker": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\Utils.cs",
+              "RelativeDocumentMoniker": "WeightingWhiteGlue\\Utils.cs",
+              "ToolTip": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\Utils.cs",
+              "RelativeToolTip": "WeightingWhiteGlue\\Utils.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAEwD4AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T01:28:00.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\App.config",
+              "RelativeDocumentMoniker": "WeightingWhiteGlue\\App.config",
+              "ToolTip": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\App.config",
+              "RelativeToolTip": "WeightingWhiteGlue\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-12-01T01:27:40.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\MainForm.cs",
+              "RelativeDocumentMoniker": "WeightingWhiteGlue\\MainForm.cs",
+              "ToolTip": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\MainForm.cs",
+              "RelativeToolTip": "WeightingWhiteGlue\\MainForm.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAEwEsAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-26T07:12:25.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0c720079-b2d5-4f29-840e-382783199460}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b03e7fb9-8379-52db-b904-eb2479499478}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainForm.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\MainForm.cs",
+              "RelativeDocumentMoniker": "WeightingWhiteGlue\\MainForm.cs",
+              "ToolTip": "D:\\ly\\WorkCode\\\u767D\u7CCA\u79F0\u91CD\\WeightingWhiteGlue\\WeightingWhiteGlue\\MainForm.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "WeightingWhiteGlue\\MainForm.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-26T04:00:21.878Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
