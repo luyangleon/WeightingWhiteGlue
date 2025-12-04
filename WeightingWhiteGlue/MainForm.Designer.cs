@@ -375,6 +375,7 @@ namespace WeightingWhiteGlue
             this.dgvRecords.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRecords.Size = new System.Drawing.Size(950, 450);
             this.dgvRecords.TabIndex = 0;
+            this.dgvRecords.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvRecords_CellFormatting);
             // 
             // Id
             // 

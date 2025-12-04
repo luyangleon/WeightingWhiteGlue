@@ -55,7 +55,7 @@ namespace WeightingWhiteGlue
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            UpdateDGV();
+            UpdateUI(() => UpdateDGV());
         }
 
         private void UpdateDGV()
@@ -64,16 +64,24 @@ namespace WeightingWhiteGlue
             DataTable ds = SA.GetDataTable($@"SELECT TOP 1000 
 [Id],[Plant],[MachineId],[Shift],[WeighingType],[WaterRate],[WeighingWeightBegin],[WeighingWeightEnd],[WeighingTimeBegin],[WeighingTimeEnd] 
 FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("DBConnStr"));
-            if (dgvRecords.InvokeRequired)
+            dgvRecords.DataSource = ds;
+        }
+
+        private void dgvRecords_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (this.dgvRecords.Columns[e.ColumnIndex].Name == "Shift")
             {
-                dgvRecords.BeginInvoke(new Action(() =>
+                if (e.Value != null)
                 {
-                    dgvRecords.DataSource = ds;
-                }));
-            }
-            else
-            {
-                dgvRecords.DataSource = ds;
+                    if (e.Value.ToString() == "1")
+                    {
+                        e.Value = "忠班";
+                    }
+                    else if (e.Value.ToString() == "2")
+                    {
+                        e.Value = "义班";
+                    }
+                }
             }
         }
 
@@ -221,7 +229,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                     _isReadingData = true;
                     _lastReadTime = DateTime.MinValue;
                     SendCommand("R");
-                    UpdateLblStatus("状态: 已发送R读取命令，正在接收数据...", Color.Yellow);
+                    UpdateLblStatus("状态: 已发送R读取命令，正在接收数据...", Color.Orange);
                 }
                 else
                 {
@@ -249,7 +257,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                     _isReadingData = true;
                     _lastReadTime = DateTime.MinValue;
                     SendCommand("R");
-                    UpdateLblStatus("状态: 已发送R读取命令，正在接收数据...", Color.Yellow);
+                    UpdateLblStatus("状态: 已发送R读取命令，正在接收数据...", Color.Orange);
                 }
                 else
                 {
@@ -473,7 +481,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
 
                     // 保存到DataGridView
                     UpdateUI(() => SaveToDGV());
-                    UpdateDGV();
+                    UpdateUI(() => UpdateDGV());
                     Log($"[解析成功]: {_currentWeightTypeName} = {weightStr}{unit}");
                 }
             }
@@ -485,7 +493,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                     UpdateLblStatus($"解析数据错误: {ex.Message}", Color.Red);
                 });
                 // TODO
-                //if (_lastId != null && _lastId != 0)
+                //if (_isBebinWeighing)
                 //{
                 //    btnRead.Enabled = false;
                 //    btnReadEnd.Enabled = true;
@@ -506,7 +514,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
         {
             if (InvokeRequired)
             {
-                Invoke(action);
+                BeginInvoke(action);
             }
             else
             {
@@ -566,18 +574,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 return;
             }
 
-            if (_lastId != null && _lastId != 0) // 结束称重 修改
-            {
-                string updateSql = string.Format("UPDATE WeighingRecord SET WeighingWeightEnd='{0}',WeighingTimeEnd='{1}' WHERE Id='{2}'"
-                    , Convert.ToDecimal(_currentWeight)
-                    , DateTime.Now
-                    , _lastId);
-                int upRes = SA.ExecuteNonQuery(updateSql, Utils.GetParameterValue("DBConnStr"));
-                UpdateLblStatus($"状态: 记录已更新", Color.Green);
-                Log($"{_lastId}记录已更新: 结束称重重量 {_currentWeight}{_currentUnit}");
-                _lastId = null;
-            }
-            else // 开始称重 新增
+            if (_isBebinWeighing) // 开始称重 新增
             {
                 string insertSql = string.Format(@"INSERT INTO WeighingRecord (Plant,MachineId,Shift,WeighingType,WaterRate,WeighingWeightBegin,WeighingTimeBegin) 
  VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY();"
@@ -595,6 +592,17 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 }
                 UpdateLblStatus($"状态: 记录已新增", Color.Green);
                 Log($"{addRes}记录已新增: 开始称重重量 {_currentWeight}{_currentUnit}");
+            }
+            else // 结束称重 修改
+            {
+                string updateSql = string.Format("UPDATE WeighingRecord SET WeighingWeightEnd='{0}',WeighingTimeEnd='{1}' WHERE Id='{2}'"
+                    , Convert.ToDecimal(_currentWeight)
+                    , DateTime.Now
+                    , _lastId);
+                int upRes = SA.ExecuteNonQuery(updateSql, Utils.GetParameterValue("DBConnStr"));
+                UpdateLblStatus($"状态: 记录已更新", Color.Green);
+                Log($"{_lastId}记录已更新: 结束称重重量 {_currentWeight}{_currentUnit}");
+                _lastId = null;
             }
         }
 
