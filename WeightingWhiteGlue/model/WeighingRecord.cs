@@ -17,13 +17,17 @@ namespace WeightingWhiteGlue.model
         /// </summary>
         public string Plant { get; set; }
         /// <summary>
+        /// 机台代号
+        /// </summary>
+        public string MachineId { get; set; }
+        /// <summary>
         /// 班别
         /// </summary>
         public string Shift { get; set; }
         /// <summary>
         /// 称重类型
         /// </summary>
-        public string WeightingType { get; set; }
+        public string WeighingType { get; set; }
         /// <summary>
         /// 注水量
         /// </summary>

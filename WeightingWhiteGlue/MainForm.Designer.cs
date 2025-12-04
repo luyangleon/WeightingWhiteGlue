@@ -34,8 +34,10 @@ namespace WeightingWhiteGlue
         {
             this.components = new System.ComponentModel.Container();
             this.gbConnection = new System.Windows.Forms.GroupBox();
+            this.lblShift = new System.Windows.Forms.Label();
             this.lblConvertMachine = new System.Windows.Forms.Label();
             this.lblPlant = new System.Windows.Forms.Label();
+            this.cmbShift = new System.Windows.Forms.ComboBox();
             this.cmbConvertMachine = new System.Windows.Forms.ComboBox();
             this.cmbPlant = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
@@ -69,8 +71,6 @@ namespace WeightingWhiteGlue
             this.WeighingTimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
-            this.cmbShift = new System.Windows.Forms.ComboBox();
-            this.lblShift = new System.Windows.Forms.Label();
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
@@ -96,6 +96,15 @@ namespace WeightingWhiteGlue
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "连接设置";
             // 
+            // lblShift
+            // 
+            this.lblShift.AutoSize = true;
+            this.lblShift.Location = new System.Drawing.Point(187, 28);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(35, 12);
+            this.lblShift.TabIndex = 7;
+            this.lblShift.Text = "班别:";
+            // 
             // lblConvertMachine
             // 
             this.lblConvertMachine.AutoSize = true;
@@ -113,6 +122,14 @@ namespace WeightingWhiteGlue
             this.lblPlant.Size = new System.Drawing.Size(35, 12);
             this.lblPlant.TabIndex = 7;
             this.lblPlant.Text = "厂区:";
+            // 
+            // cmbShift
+            // 
+            this.cmbShift.FormattingEnabled = true;
+            this.cmbShift.Location = new System.Drawing.Point(223, 23);
+            this.cmbShift.Name = "cmbShift";
+            this.cmbShift.Size = new System.Drawing.Size(49, 20);
+            this.cmbShift.TabIndex = 6;
             // 
             // cmbConvertMachine
             // 
@@ -441,23 +458,6 @@ namespace WeightingWhiteGlue
             // 
             this.autoReadTimer.Interval = 1000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
-            // 
-            // cmbShift
-            // 
-            this.cmbShift.FormattingEnabled = true;
-            this.cmbShift.Location = new System.Drawing.Point(223, 23);
-            this.cmbShift.Name = "cmbShift";
-            this.cmbShift.Size = new System.Drawing.Size(49, 20);
-            this.cmbShift.TabIndex = 6;
-            // 
-            // lblShift
-            // 
-            this.lblShift.AutoSize = true;
-            this.lblShift.Location = new System.Drawing.Point(187, 28);
-            this.lblShift.Name = "lblShift";
-            this.lblShift.Size = new System.Drawing.Size(35, 12);
-            this.lblShift.TabIndex = 7;
-            this.lblShift.Text = "班别:";
             // 
             // MainForm
             // 
