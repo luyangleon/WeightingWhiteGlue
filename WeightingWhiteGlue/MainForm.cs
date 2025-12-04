@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
@@ -13,51 +14,54 @@ namespace WeightingWhiteGlue
 {
     public partial class MainForm : Form
     {
+        //ww:Gross:毛重,wn:Net:净重,wt:Tare:皮重
         private SerialPort serialPort;
-        private List<WeightRecord> weightRecords;
         private string currentWeight = "0.000";
         private string currentUnit = "kg";
+        private string currentWeightType= "净重";
         private bool isStable = false;
-        private WeightType currentWeightType = WeightType.Gross;
 
         private bool isReadingData = false;
         private DateTime lastReadTime = DateTime.MinValue;
+        private bool isBebinWeighing = false;
+        private int? weighingId = 0;
+
+        private SQLDBHelper SA = new SQLDBHelper();
+        private OdbcHelper OA = new OdbcHelper();
 
         // 防抖相关字段
         private Timer debounceTimer = new Timer();
         private DateTime lastCommandTime = DateTime.MinValue;
         private const int DebounceInterval = 1000;
         
-        private static readonly Regex WeightPattern = new Regex(@"(ww|wn|wt)\s*([0-9.]+)(kg|g|lb)?", 
+        private static readonly Regex WeightPattern = new Regex(@"(ww|wn|wt)\s*(-?\d*\.?\d+)(kg|g|lb)?", 
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
-        // 重量类型到中文名称的映射
-        private static readonly Dictionary<string, string> WeightTypeNames = new Dictionary<string, string>
-        {
-            { "Gross", "毛重" },
-            { "Net", "净重" },
-            { "Tare", "皮重" }
-        };
-        
-        // 类型代码到WeightType的映射
-        private static readonly Dictionary<string, WeightType> TypeCodeMap = new Dictionary<string, WeightType>
-        {
-            { "ww", WeightType.Gross },
-            { "wn", WeightType.Net },
-            { "wt", WeightType.Tare }
-        };
-
         public MainForm()
         {
             InitializeComponent();
+            InitShift();
             InitPlantMachine();
             InitializeSerialPort();
-            weightRecords = new List<WeightRecord>();
             lblPort.Text = "串口:" + Utils.GetParameterValue("Port");
             lblBaud.Text = "波特率:" + Utils.GetParameterValue("BaudRate");
 
             debounceTimer.Interval = DebounceInterval;
             debounceTimer.Tick += DebounceTimer_Tick;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            UpdateDGV();
+        }
+
+        private void UpdateDGV()
+        {
+            // 绑定DataGridView
+            DataTable ds = SA.GetDataTable($@"SELECT TOP 1000 
+[Id],[Plant],[MachineId],[Shift],[WeighingType],[WaterRate],[WeighingWeightBegin],[WeighingWeightEnd],[WeighingTimeBegin],[WeighingTimeEnd] 
+FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("DBConnStr"));
+            dgvRecords.DataSource = ds;
         }
 
         private void InitPlantMachine()
@@ -72,6 +76,19 @@ namespace WeightingWhiteGlue
             List<string> machineList = Utils.GetParameterValue($"{plant}ConvertMachine")?.Split('|').ToList();
             cmbConvertMachine.Items.Clear();
             cmbConvertMachine.Items.AddRange(machineList?.ToArray());
+        }
+
+        private void InitShift()
+        {
+            // 班次初始化
+            cmbShift.Items.Clear();
+            List<ComboBoxItem> shiftList = new List<ComboBoxItem>
+            {
+                new ComboBoxItem("忠班", "1"),
+                new ComboBoxItem("义班", "2")
+            };
+            cmbShift.DataSource = shiftList;
+            cmbShift.SelectedIndex = 0;
         }
 
         private void InitializeSerialPort()
@@ -104,6 +121,7 @@ namespace WeightingWhiteGlue
 
                 cmbPlant.Enabled = false;
                 cmbConvertMachine.Enabled = false;
+                cmbShift.Enabled = false;
                 btnConnect.Enabled = false;
                 btnDisconnect.Enabled = true;
                 btnZero.Enabled = true;
@@ -137,6 +155,7 @@ namespace WeightingWhiteGlue
 
                 cmbPlant.Enabled = true;
                 cmbConvertMachine.Enabled = true;
+                cmbShift.Enabled = true;
                 btnConnect.Enabled = true;
                 btnDisconnect.Enabled = false;
                 btnZero.Enabled = false;
@@ -169,6 +188,9 @@ namespace WeightingWhiteGlue
             lblStatus.Text = "状态: 已发送T去皮命令";
         }
 
+        /// <summary>
+        /// 开始称重
+        /// </summary>
         private void BtnRead_Click(object sender, EventArgs e)
         {
             // 计算与上次发送命令的时间间隔
@@ -178,6 +200,10 @@ namespace WeightingWhiteGlue
             {
                 if (!isReadingData)
                 {
+                    // 开始称重的标记
+                    isBebinWeighing = true;
+                    btnRead.Enabled = false;
+                    btnReadEnd.Enabled = true;
                     // 开始读取：设置读取状态，准备接收数据
                     isReadingData = true;
                     lastReadTime = DateTime.MinValue;
@@ -191,7 +217,36 @@ namespace WeightingWhiteGlue
                 }
             }            
         }
-
+        /// <summary>
+        /// 结束称重
+        /// </summary>
+        private void btnReadEnd_Click(object sender, EventArgs e)
+        {
+            // 计算与上次发送命令的时间间隔
+            TimeSpan timeSinceLastCommand = DateTime.Now - lastCommandTime;
+            // 如果间隔大于等于防抖间隔，立即发送命令
+            if (timeSinceLastCommand >= TimeSpan.FromMilliseconds(DebounceInterval))
+            {
+                if (!isReadingData)
+                {
+                    // 开始称重的标记
+                    weighingId = 0;
+                    isBebinWeighing = false;
+                    btnRead.Enabled = true;
+                    btnReadEnd.Enabled = false;
+                    // 开始读取：设置读取状态，准备接收数据
+                    isReadingData = true;
+                    lastReadTime = DateTime.MinValue;
+                    SendCommand("R");
+                    lblStatus.Text = "状态: 已发送R读取命令，正在接收数据...";
+                }
+                else
+                {
+                    // 停止读取：重置读取状态
+                    isReadingData = false;
+                }
+            }
+        }
         private void SendCommand(string command)
         {
             try
@@ -302,6 +357,7 @@ namespace WeightingWhiteGlue
                     else
                     {
                         Log($"[ReadLine警告]: 未找到有效重量数据: {lineData}");
+                        isReadingData = false;
                     }
                 }
             }
@@ -381,13 +437,23 @@ namespace WeightingWhiteGlue
                     return;
                 }
 
-                // 使用字典获取重量类型和中文名称
-                WeightType type = TypeCodeMap.TryGetValue(typeCode, out WeightType mappedType) ? mappedType : WeightType.Gross;
-                string typeName = WeightTypeNames.TryGetValue(type.ToString(), out string name) ? name : "毛重";
-
+                currentWeightType = typeCode;
                 currentWeight = weight.ToString();
                 currentUnit = unit;
-                currentWeightType = type;
+
+                string typeName = string.Empty;
+                switch (typeCode)
+                {
+                    case "ww":
+                        typeName = "毛重";
+                        break;
+                    case "wn":
+                        typeName = "净重";
+                        break;
+                    case "wt":
+                        typeName = "皮重";
+                        break;
+                }
 
                 // 检查是否是新数据（避免短时间内重复处理）
                 if (DateTime.Now - lastReadTime > TimeSpan.FromSeconds(1))
@@ -397,7 +463,7 @@ namespace WeightingWhiteGlue
                     lastReadTime = DateTime.Now;
 
                     // 保存到DataGridView
-                    SaveToDGV();
+                    UpdateUI(() => SaveToDGV());
                     Log($"[解析成功]: {typeName} = {weightStr}{unit}");
                 }
             }
@@ -481,32 +547,8 @@ namespace WeightingWhiteGlue
                 return;
             }
 
-            WeightRecord record = new WeightRecord
-            {
-                Time = DateTime.Now,
-                Weight = currentWeight,
-                Unit = currentUnit,
-                Type = currentWeightType.ToString(),
-                Status = isStable ? "稳定" : "不稳定"
-            };
-
-            weightRecords.Add(record);
-
-            dgvRecords.Rows.Add(
-                record.Time.ToString("yyyy-MM-dd HH:mm:ss"),
-                record.Weight,
-                record.Unit,
-                GetWeightTypeName(record.Type),
-                record.Status
-            );
-
-            lblStatus.Text = $"状态: 记录已保存 - 共 {weightRecords.Count} 条";
-            Log($"记录已保存: {record.Weight}{record.Unit} ({record.Status})");
-        }
-
-        private string GetWeightTypeName(string type)
-        {
-            return WeightTypeNames.TryGetValue(type, out string name) ? name : type;
+            //lblStatus.Text = $"状态: 记录已保存 - 共 {weightRecords.Count} 条";
+            //Log($"记录已保存: {record.Weight}{record.Unit} ({record.Status})");
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -541,19 +583,19 @@ namespace WeightingWhiteGlue
 
     }
 
-    public enum WeightType
+    public class ComboBoxItem
     {
-        Gross,  // 毛重
-        Net,    // 净重
-        Tare    // 皮重
+        public string Text { get; set; }
+        public string Value { get; set; }
+        public ComboBoxItem(string text, string value)
+        {
+            Text = text;
+            Value = value;
+        }
+        public override string ToString()
+        {
+            return Text;
+        }
     }
 
-    public class WeightRecord
-    {
-        public DateTime Time { get; set; }
-        public string Weight { get; set; }
-        public string Unit { get; set; }
-        public string Type { get; set; }
-        public string Status { get; set; }
-    }
 }

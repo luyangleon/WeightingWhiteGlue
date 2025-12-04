@@ -34,16 +34,23 @@ namespace WeightingWhiteGlue
         {
             this.components = new System.ComponentModel.Container();
             this.gbConnection = new System.Windows.Forms.GroupBox();
-            this.lblPort = new System.Windows.Forms.Label();
-            this.lblBaud = new System.Windows.Forms.Label();
+            this.lblConvertMachine = new System.Windows.Forms.Label();
+            this.lblPlant = new System.Windows.Forms.Label();
+            this.cmbConvertMachine = new System.Windows.Forms.ComboBox();
+            this.cmbPlant = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
+            this.lblPort = new System.Windows.Forms.Label();
+            this.lblBaud = new System.Windows.Forms.Label();
             this.gbDisplay = new System.Windows.Forms.GroupBox();
             this.lblWeight = new System.Windows.Forms.Label();
             this.lblUnit = new System.Windows.Forms.Label();
             this.lblWeightType = new System.Windows.Forms.Label();
             this.pnlIndicator = new System.Windows.Forms.Panel();
             this.gbOperation = new System.Windows.Forms.GroupBox();
+            this.btnReadEnd = new System.Windows.Forms.Button();
+            this.numWaterRate = new System.Windows.Forms.NumericUpDown();
+            this.lblWaterRate = new System.Windows.Forms.Label();
             this.btnZero = new System.Windows.Forms.Button();
             this.btnTare = new System.Windows.Forms.Button();
             this.btnRead = new System.Windows.Forms.Button();
@@ -51,30 +58,33 @@ namespace WeightingWhiteGlue
             this.lblStatus = new System.Windows.Forms.Label();
             this.gbRecords = new System.Windows.Forms.GroupBox();
             this.dgvRecords = new System.Windows.Forms.DataGridView();
-            this.colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Plant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MachineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Shift = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeighingType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WaterRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeighingWeightBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeighingWeightEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeighingTimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeighingTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
-            this.cmbPlant = new System.Windows.Forms.ComboBox();
-            this.lblPlant = new System.Windows.Forms.Label();
-            this.cmbConvertMachine = new System.Windows.Forms.ComboBox();
-            this.lblConvertMachine = new System.Windows.Forms.Label();
-            this.lblWaterRate = new System.Windows.Forms.Label();
-            this.numWaterRate = new System.Windows.Forms.NumericUpDown();
+            this.cmbShift = new System.Windows.Forms.ComboBox();
+            this.lblShift = new System.Windows.Forms.Label();
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).BeginInit();
             this.gbRecords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecords)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).BeginInit();
             this.SuspendLayout();
             // 
             // gbConnection
             // 
+            this.gbConnection.Controls.Add(this.lblShift);
             this.gbConnection.Controls.Add(this.lblConvertMachine);
             this.gbConnection.Controls.Add(this.lblPlant);
+            this.gbConnection.Controls.Add(this.cmbShift);
             this.gbConnection.Controls.Add(this.cmbConvertMachine);
             this.gbConnection.Controls.Add(this.cmbPlant);
             this.gbConnection.Controls.Add(this.btnConnect);
@@ -85,6 +95,61 @@ namespace WeightingWhiteGlue
             this.gbConnection.TabIndex = 0;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "连接设置";
+            // 
+            // lblConvertMachine
+            // 
+            this.lblConvertMachine.AutoSize = true;
+            this.lblConvertMachine.Location = new System.Drawing.Point(96, 27);
+            this.lblConvertMachine.Name = "lblConvertMachine";
+            this.lblConvertMachine.Size = new System.Drawing.Size(35, 12);
+            this.lblConvertMachine.TabIndex = 7;
+            this.lblConvertMachine.Text = "机台:";
+            // 
+            // lblPlant
+            // 
+            this.lblPlant.AutoSize = true;
+            this.lblPlant.Location = new System.Drawing.Point(6, 27);
+            this.lblPlant.Name = "lblPlant";
+            this.lblPlant.Size = new System.Drawing.Size(35, 12);
+            this.lblPlant.TabIndex = 7;
+            this.lblPlant.Text = "厂区:";
+            // 
+            // cmbConvertMachine
+            // 
+            this.cmbConvertMachine.FormattingEnabled = true;
+            this.cmbConvertMachine.Location = new System.Drawing.Point(132, 23);
+            this.cmbConvertMachine.Name = "cmbConvertMachine";
+            this.cmbConvertMachine.Size = new System.Drawing.Size(49, 20);
+            this.cmbConvertMachine.TabIndex = 6;
+            // 
+            // cmbPlant
+            // 
+            this.cmbPlant.FormattingEnabled = true;
+            this.cmbPlant.Location = new System.Drawing.Point(41, 23);
+            this.cmbPlant.Name = "cmbPlant";
+            this.cmbPlant.Size = new System.Drawing.Size(49, 20);
+            this.cmbPlant.TabIndex = 6;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(42, 67);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(85, 25);
+            this.btnConnect.TabIndex = 4;
+            this.btnConnect.Text = "连接";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
+            // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Enabled = false;
+            this.btnDisconnect.Location = new System.Drawing.Point(137, 67);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(85, 25);
+            this.btnDisconnect.TabIndex = 5;
+            this.btnDisconnect.Text = "断开";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.BtnDisconnect_Click);
             // 
             // lblPort
             // 
@@ -103,27 +168,6 @@ namespace WeightingWhiteGlue
             this.lblBaud.Size = new System.Drawing.Size(71, 12);
             this.lblBaud.TabIndex = 2;
             this.lblBaud.Text = "波特率:1200";
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Location = new System.Drawing.Point(41, 65);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(85, 25);
-            this.btnConnect.TabIndex = 4;
-            this.btnConnect.Text = "连接";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
-            // 
-            // btnDisconnect
-            // 
-            this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Location = new System.Drawing.Point(136, 65);
-            this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(85, 25);
-            this.btnDisconnect.TabIndex = 5;
-            this.btnDisconnect.Text = "断开";
-            this.btnDisconnect.UseVisualStyleBackColor = true;
-            this.btnDisconnect.Click += new System.EventHandler(this.BtnDisconnect_Click);
             // 
             // gbDisplay
             // 
@@ -180,6 +224,7 @@ namespace WeightingWhiteGlue
             // 
             // gbOperation
             // 
+            this.gbOperation.Controls.Add(this.btnReadEnd);
             this.gbOperation.Controls.Add(this.numWaterRate);
             this.gbOperation.Controls.Add(this.lblWaterRate);
             this.gbOperation.Controls.Add(this.btnZero);
@@ -193,12 +238,41 @@ namespace WeightingWhiteGlue
             this.gbOperation.TabStop = false;
             this.gbOperation.Text = "操作";
             // 
+            // btnReadEnd
+            // 
+            this.btnReadEnd.Enabled = false;
+            this.btnReadEnd.Location = new System.Drawing.Point(152, 55);
+            this.btnReadEnd.Name = "btnReadEnd";
+            this.btnReadEnd.Size = new System.Drawing.Size(138, 37);
+            this.btnReadEnd.TabIndex = 7;
+            this.btnReadEnd.Text = "结束称重 (R)";
+            this.btnReadEnd.UseVisualStyleBackColor = true;
+            this.btnReadEnd.Click += new System.EventHandler(this.btnReadEnd_Click);
+            // 
+            // numWaterRate
+            // 
+            this.numWaterRate.DecimalPlaces = 3;
+            this.numWaterRate.Enabled = false;
+            this.numWaterRate.Location = new System.Drawing.Point(73, 24);
+            this.numWaterRate.Name = "numWaterRate";
+            this.numWaterRate.Size = new System.Drawing.Size(70, 21);
+            this.numWaterRate.TabIndex = 6;
+            // 
+            // lblWaterRate
+            // 
+            this.lblWaterRate.AutoSize = true;
+            this.lblWaterRate.Location = new System.Drawing.Point(8, 28);
+            this.lblWaterRate.Name = "lblWaterRate";
+            this.lblWaterRate.Size = new System.Drawing.Size(59, 12);
+            this.lblWaterRate.TabIndex = 4;
+            this.lblWaterRate.Text = "注水量kg:";
+            // 
             // btnZero
             // 
             this.btnZero.Enabled = false;
-            this.btnZero.Location = new System.Drawing.Point(10, 84);
+            this.btnZero.Location = new System.Drawing.Point(152, 20);
             this.btnZero.Name = "btnZero";
-            this.btnZero.Size = new System.Drawing.Size(85, 30);
+            this.btnZero.Size = new System.Drawing.Size(68, 25);
             this.btnZero.TabIndex = 0;
             this.btnZero.Text = "置零 (Z)";
             this.btnZero.UseVisualStyleBackColor = true;
@@ -208,9 +282,9 @@ namespace WeightingWhiteGlue
             // btnTare
             // 
             this.btnTare.Enabled = false;
-            this.btnTare.Location = new System.Drawing.Point(101, 84);
+            this.btnTare.Location = new System.Drawing.Point(226, 20);
             this.btnTare.Name = "btnTare";
-            this.btnTare.Size = new System.Drawing.Size(85, 30);
+            this.btnTare.Size = new System.Drawing.Size(68, 25);
             this.btnTare.TabIndex = 1;
             this.btnTare.Text = "去皮 (T)";
             this.btnTare.UseVisualStyleBackColor = true;
@@ -220,11 +294,11 @@ namespace WeightingWhiteGlue
             // btnRead
             // 
             this.btnRead.Enabled = false;
-            this.btnRead.Location = new System.Drawing.Point(149, 20);
+            this.btnRead.Location = new System.Drawing.Point(10, 55);
             this.btnRead.Name = "btnRead";
             this.btnRead.Size = new System.Drawing.Size(138, 37);
             this.btnRead.TabIndex = 2;
-            this.btnRead.Text = "读取 (R)";
+            this.btnRead.Text = "开始称重 (R)";
             this.btnRead.UseVisualStyleBackColor = true;
             this.btnRead.Click += new System.EventHandler(this.BtnRead_Click);
             // 
@@ -232,12 +306,13 @@ namespace WeightingWhiteGlue
             // 
             this.chkAutoRead.AutoSize = true;
             this.chkAutoRead.Enabled = false;
-            this.chkAutoRead.Location = new System.Drawing.Point(10, 65);
+            this.chkAutoRead.Location = new System.Drawing.Point(10, 98);
             this.chkAutoRead.Name = "chkAutoRead";
             this.chkAutoRead.Size = new System.Drawing.Size(72, 16);
             this.chkAutoRead.TabIndex = 3;
             this.chkAutoRead.Text = "自动读取";
             this.chkAutoRead.UseVisualStyleBackColor = true;
+            this.chkAutoRead.Visible = false;
             this.chkAutoRead.CheckedChanged += new System.EventHandler(this.ChkAutoRead_CheckedChanged);
             // 
             // lblStatus
@@ -266,11 +341,16 @@ namespace WeightingWhiteGlue
             this.dgvRecords.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRecords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRecords.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colTime,
-            this.colWeight,
-            this.colUnit,
-            this.colType,
-            this.colStatus});
+            this.Id,
+            this.Plant,
+            this.MachineId,
+            this.Shift,
+            this.WeighingType,
+            this.WaterRate,
+            this.WeighingWeightBegin,
+            this.WeighingWeightEnd,
+            this.WeighingTimeBegin,
+            this.WeighingTimeEnd});
             this.dgvRecords.Location = new System.Drawing.Point(10, 20);
             this.dgvRecords.Name = "dgvRecords";
             this.dgvRecords.ReadOnly = true;
@@ -279,92 +359,105 @@ namespace WeightingWhiteGlue
             this.dgvRecords.Size = new System.Drawing.Size(950, 450);
             this.dgvRecords.TabIndex = 0;
             // 
-            // colTime
+            // Id
             // 
-            this.colTime.HeaderText = "时间";
-            this.colTime.Name = "colTime";
-            this.colTime.ReadOnly = true;
+            this.Id.DataPropertyName = "Id";
+            this.Id.FillWeight = 60F;
+            this.Id.HeaderText = "编号";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
             // 
-            // colWeight
+            // Plant
             // 
-            this.colWeight.HeaderText = "重量";
-            this.colWeight.Name = "colWeight";
-            this.colWeight.ReadOnly = true;
+            this.Plant.DataPropertyName = "Plant";
+            this.Plant.FillWeight = 60F;
+            this.Plant.HeaderText = "厂区";
+            this.Plant.Name = "Plant";
+            this.Plant.ReadOnly = true;
             // 
-            // colUnit
+            // MachineId
             // 
-            this.colUnit.HeaderText = "单位";
-            this.colUnit.Name = "colUnit";
-            this.colUnit.ReadOnly = true;
+            this.MachineId.DataPropertyName = "MachineId";
+            this.MachineId.FillWeight = 80F;
+            this.MachineId.HeaderText = "机台";
+            this.MachineId.Name = "MachineId";
+            this.MachineId.ReadOnly = true;
             // 
-            // colType
+            // Shift
             // 
-            this.colType.HeaderText = "类型";
-            this.colType.Name = "colType";
-            this.colType.ReadOnly = true;
+            this.Shift.DataPropertyName = "Shift";
+            this.Shift.FillWeight = 60F;
+            this.Shift.HeaderText = "班别";
+            this.Shift.Name = "Shift";
+            this.Shift.ReadOnly = true;
             // 
-            // colStatus
+            // WeighingType
             // 
-            this.colStatus.HeaderText = "状态";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
+            this.WeighingType.DataPropertyName = "WeighingType";
+            this.WeighingType.FillWeight = 70F;
+            this.WeighingType.HeaderText = "称重类型";
+            this.WeighingType.Name = "WeighingType";
+            this.WeighingType.ReadOnly = true;
+            // 
+            // WaterRate
+            // 
+            this.WaterRate.DataPropertyName = "WaterRate";
+            this.WaterRate.FillWeight = 90F;
+            this.WaterRate.HeaderText = "注水量";
+            this.WaterRate.Name = "WaterRate";
+            this.WaterRate.ReadOnly = true;
+            // 
+            // WeighingWeightBegin
+            // 
+            this.WeighingWeightBegin.DataPropertyName = "WeighingWeightBegin";
+            this.WeighingWeightBegin.FillWeight = 90F;
+            this.WeighingWeightBegin.HeaderText = "开始称重重量";
+            this.WeighingWeightBegin.Name = "WeighingWeightBegin";
+            this.WeighingWeightBegin.ReadOnly = true;
+            // 
+            // WeighingWeightEnd
+            // 
+            this.WeighingWeightEnd.DataPropertyName = "WeighingWeightEnd";
+            this.WeighingWeightEnd.FillWeight = 90F;
+            this.WeighingWeightEnd.HeaderText = "结束称重重量";
+            this.WeighingWeightEnd.Name = "WeighingWeightEnd";
+            this.WeighingWeightEnd.ReadOnly = true;
+            // 
+            // WeighingTimeBegin
+            // 
+            this.WeighingTimeBegin.DataPropertyName = "WeighingTimeBegin";
+            this.WeighingTimeBegin.HeaderText = "开始称重时间";
+            this.WeighingTimeBegin.Name = "WeighingTimeBegin";
+            this.WeighingTimeBegin.ReadOnly = true;
+            // 
+            // WeighingTimeEnd
+            // 
+            this.WeighingTimeEnd.DataPropertyName = "WeighingTimeEnd";
+            this.WeighingTimeEnd.HeaderText = "结束称重时间";
+            this.WeighingTimeEnd.Name = "WeighingTimeEnd";
+            this.WeighingTimeEnd.ReadOnly = true;
             // 
             // autoReadTimer
             // 
             this.autoReadTimer.Interval = 1000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
             // 
-            // cmbPlant
+            // cmbShift
             // 
-            this.cmbPlant.FormattingEnabled = true;
-            this.cmbPlant.Location = new System.Drawing.Point(65, 25);
-            this.cmbPlant.Name = "cmbPlant";
-            this.cmbPlant.Size = new System.Drawing.Size(49, 20);
-            this.cmbPlant.TabIndex = 6;
+            this.cmbShift.FormattingEnabled = true;
+            this.cmbShift.Location = new System.Drawing.Point(223, 23);
+            this.cmbShift.Name = "cmbShift";
+            this.cmbShift.Size = new System.Drawing.Size(49, 20);
+            this.cmbShift.TabIndex = 6;
             // 
-            // lblPlant
+            // lblShift
             // 
-            this.lblPlant.AutoSize = true;
-            this.lblPlant.Location = new System.Drawing.Point(24, 28);
-            this.lblPlant.Name = "lblPlant";
-            this.lblPlant.Size = new System.Drawing.Size(35, 12);
-            this.lblPlant.TabIndex = 7;
-            this.lblPlant.Text = "厂区:";
-            // 
-            // cmbConvertMachine
-            // 
-            this.cmbConvertMachine.FormattingEnabled = true;
-            this.cmbConvertMachine.Location = new System.Drawing.Point(172, 25);
-            this.cmbConvertMachine.Name = "cmbConvertMachine";
-            this.cmbConvertMachine.Size = new System.Drawing.Size(49, 20);
-            this.cmbConvertMachine.TabIndex = 6;
-            // 
-            // lblConvertMachine
-            // 
-            this.lblConvertMachine.AutoSize = true;
-            this.lblConvertMachine.Location = new System.Drawing.Point(131, 28);
-            this.lblConvertMachine.Name = "lblConvertMachine";
-            this.lblConvertMachine.Size = new System.Drawing.Size(35, 12);
-            this.lblConvertMachine.TabIndex = 7;
-            this.lblConvertMachine.Text = "机台:";
-            // 
-            // lblWaterRate
-            // 
-            this.lblWaterRate.AutoSize = true;
-            this.lblWaterRate.Location = new System.Drawing.Point(8, 28);
-            this.lblWaterRate.Name = "lblWaterRate";
-            this.lblWaterRate.Size = new System.Drawing.Size(59, 12);
-            this.lblWaterRate.TabIndex = 4;
-            this.lblWaterRate.Text = "注水量kg:";
-            // 
-            // numWaterRate
-            // 
-            this.numWaterRate.DecimalPlaces = 3;
-            this.numWaterRate.Enabled = false;
-            this.numWaterRate.Location = new System.Drawing.Point(73, 24);
-            this.numWaterRate.Name = "numWaterRate";
-            this.numWaterRate.Size = new System.Drawing.Size(70, 21);
-            this.numWaterRate.TabIndex = 6;
+            this.lblShift.AutoSize = true;
+            this.lblShift.Location = new System.Drawing.Point(187, 28);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(35, 12);
+            this.lblShift.TabIndex = 7;
+            this.lblShift.Text = "班别:";
             // 
             // MainForm
             // 
@@ -381,15 +474,16 @@ namespace WeightingWhiteGlue
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "白糊称重";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.gbConnection.ResumeLayout(false);
             this.gbConnection.PerformLayout();
             this.gbDisplay.ResumeLayout(false);
             this.gbDisplay.PerformLayout();
             this.gbOperation.ResumeLayout(false);
             this.gbOperation.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).EndInit();
             this.gbRecords.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecords)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numWaterRate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -419,11 +513,6 @@ namespace WeightingWhiteGlue
 
         private System.Windows.Forms.GroupBox gbRecords;
         private System.Windows.Forms.DataGridView dgvRecords;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colWeight;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
 
         private System.Windows.Forms.Timer autoReadTimer;
         private Label lblPlant;
@@ -432,5 +521,18 @@ namespace WeightingWhiteGlue
         private ComboBox cmbConvertMachine;
         private Label lblWaterRate;
         private NumericUpDown numWaterRate;
+        private Button btnReadEnd;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Plant;
+        private DataGridViewTextBoxColumn MachineId;
+        private DataGridViewTextBoxColumn Shift;
+        private DataGridViewTextBoxColumn WeighingType;
+        private DataGridViewTextBoxColumn WaterRate;
+        private DataGridViewTextBoxColumn WeighingWeightBegin;
+        private DataGridViewTextBoxColumn WeighingWeightEnd;
+        private DataGridViewTextBoxColumn WeighingTimeBegin;
+        private DataGridViewTextBoxColumn WeighingTimeEnd;
+        private Label lblShift;
+        private ComboBox cmbShift;
     }
 }
