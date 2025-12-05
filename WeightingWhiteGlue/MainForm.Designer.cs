@@ -60,6 +60,9 @@ namespace WeightingWhiteGlue
             this.lblStatus = new System.Windows.Forms.Label();
             this.gbRecords = new System.Windows.Forms.GroupBox();
             this.dgvRecords = new System.Windows.Forms.DataGridView();
+            this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
+            this.cmbSite = new System.Windows.Forms.ComboBox();
+            this.lblSite = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Plant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MachineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,7 +73,6 @@ namespace WeightingWhiteGlue
             this.WeighingWeightEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
@@ -81,9 +83,11 @@ namespace WeightingWhiteGlue
             // 
             // gbConnection
             // 
+            this.gbConnection.Controls.Add(this.lblSite);
             this.gbConnection.Controls.Add(this.lblShift);
             this.gbConnection.Controls.Add(this.lblConvertMachine);
             this.gbConnection.Controls.Add(this.lblPlant);
+            this.gbConnection.Controls.Add(this.cmbSite);
             this.gbConnection.Controls.Add(this.cmbShift);
             this.gbConnection.Controls.Add(this.cmbConvertMachine);
             this.gbConnection.Controls.Add(this.cmbPlant);
@@ -99,7 +103,7 @@ namespace WeightingWhiteGlue
             // lblShift
             // 
             this.lblShift.AutoSize = true;
-            this.lblShift.Location = new System.Drawing.Point(187, 28);
+            this.lblShift.Location = new System.Drawing.Point(202, 28);
             this.lblShift.Name = "lblShift";
             this.lblShift.Size = new System.Drawing.Size(35, 12);
             this.lblShift.TabIndex = 7;
@@ -108,7 +112,7 @@ namespace WeightingWhiteGlue
             // lblConvertMachine
             // 
             this.lblConvertMachine.AutoSize = true;
-            this.lblConvertMachine.Location = new System.Drawing.Point(96, 27);
+            this.lblConvertMachine.Location = new System.Drawing.Point(111, 27);
             this.lblConvertMachine.Name = "lblConvertMachine";
             this.lblConvertMachine.Size = new System.Drawing.Size(35, 12);
             this.lblConvertMachine.TabIndex = 7;
@@ -117,7 +121,7 @@ namespace WeightingWhiteGlue
             // lblPlant
             // 
             this.lblPlant.AutoSize = true;
-            this.lblPlant.Location = new System.Drawing.Point(6, 27);
+            this.lblPlant.Location = new System.Drawing.Point(21, 27);
             this.lblPlant.Name = "lblPlant";
             this.lblPlant.Size = new System.Drawing.Size(35, 12);
             this.lblPlant.TabIndex = 7;
@@ -126,7 +130,7 @@ namespace WeightingWhiteGlue
             // cmbShift
             // 
             this.cmbShift.FormattingEnabled = true;
-            this.cmbShift.Location = new System.Drawing.Point(223, 23);
+            this.cmbShift.Location = new System.Drawing.Point(238, 23);
             this.cmbShift.Name = "cmbShift";
             this.cmbShift.Size = new System.Drawing.Size(49, 20);
             this.cmbShift.TabIndex = 6;
@@ -134,7 +138,7 @@ namespace WeightingWhiteGlue
             // cmbConvertMachine
             // 
             this.cmbConvertMachine.FormattingEnabled = true;
-            this.cmbConvertMachine.Location = new System.Drawing.Point(132, 23);
+            this.cmbConvertMachine.Location = new System.Drawing.Point(147, 23);
             this.cmbConvertMachine.Name = "cmbConvertMachine";
             this.cmbConvertMachine.Size = new System.Drawing.Size(49, 20);
             this.cmbConvertMachine.TabIndex = 6;
@@ -142,14 +146,14 @@ namespace WeightingWhiteGlue
             // cmbPlant
             // 
             this.cmbPlant.FormattingEnabled = true;
-            this.cmbPlant.Location = new System.Drawing.Point(41, 23);
+            this.cmbPlant.Location = new System.Drawing.Point(56, 23);
             this.cmbPlant.Name = "cmbPlant";
             this.cmbPlant.Size = new System.Drawing.Size(49, 20);
             this.cmbPlant.TabIndex = 6;
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(42, 67);
+            this.btnConnect.Location = new System.Drawing.Point(55, 84);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(85, 25);
             this.btnConnect.TabIndex = 4;
@@ -160,7 +164,7 @@ namespace WeightingWhiteGlue
             // btnDisconnect
             // 
             this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Location = new System.Drawing.Point(137, 67);
+            this.btnDisconnect.Location = new System.Drawing.Point(150, 84);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(85, 25);
             this.btnDisconnect.TabIndex = 5;
@@ -175,7 +179,7 @@ namespace WeightingWhiteGlue
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(59, 12);
             this.lblPort.TabIndex = 0;
-            this.lblPort.Text = "串口:com2";
+            this.lblPort.Text = "串口:0000";
             // 
             // lblBaud
             // 
@@ -184,7 +188,7 @@ namespace WeightingWhiteGlue
             this.lblBaud.Name = "lblBaud";
             this.lblBaud.Size = new System.Drawing.Size(71, 12);
             this.lblBaud.TabIndex = 2;
-            this.lblBaud.Text = "波特率:1200";
+            this.lblBaud.Text = "波特率:0000";
             // 
             // gbDisplay
             // 
@@ -229,7 +233,7 @@ namespace WeightingWhiteGlue
             this.lblWeightType.Name = "lblWeightType";
             this.lblWeightType.Size = new System.Drawing.Size(32, 17);
             this.lblWeightType.TabIndex = 2;
-            this.lblWeightType.Text = "毛重";
+            this.lblWeightType.Text = "净重";
             // 
             // pnlIndicator
             // 
@@ -377,6 +381,28 @@ namespace WeightingWhiteGlue
             this.dgvRecords.TabIndex = 0;
             this.dgvRecords.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvRecords_CellFormatting);
             // 
+            // autoReadTimer
+            // 
+            this.autoReadTimer.Interval = 1000;
+            this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
+            // 
+            // cmbSite
+            // 
+            this.cmbSite.FormattingEnabled = true;
+            this.cmbSite.Location = new System.Drawing.Point(56, 50);
+            this.cmbSite.Name = "cmbSite";
+            this.cmbSite.Size = new System.Drawing.Size(49, 20);
+            this.cmbSite.TabIndex = 6;
+            // 
+            // lblSite
+            // 
+            this.lblSite.AutoSize = true;
+            this.lblSite.Location = new System.Drawing.Point(8, 53);
+            this.lblSite.Name = "lblSite";
+            this.lblSite.Size = new System.Drawing.Size(47, 12);
+            this.lblSite.TabIndex = 7;
+            this.lblSite.Text = "加糊点:";
+            // 
             // Id
             // 
             this.Id.DataPropertyName = "Id";
@@ -384,6 +410,7 @@ namespace WeightingWhiteGlue
             this.Id.HeaderText = "编号";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
+            this.Id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Plant
             // 
@@ -392,14 +419,16 @@ namespace WeightingWhiteGlue
             this.Plant.HeaderText = "厂区";
             this.Plant.Name = "Plant";
             this.Plant.ReadOnly = true;
+            this.Plant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MachineId
             // 
             this.MachineId.DataPropertyName = "MachineId";
-            this.MachineId.FillWeight = 80F;
+            this.MachineId.FillWeight = 50F;
             this.MachineId.HeaderText = "机台";
             this.MachineId.Name = "MachineId";
             this.MachineId.ReadOnly = true;
+            this.MachineId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Shift
             // 
@@ -408,6 +437,7 @@ namespace WeightingWhiteGlue
             this.Shift.HeaderText = "班别";
             this.Shift.Name = "Shift";
             this.Shift.ReadOnly = true;
+            this.Shift.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WeighingType
             // 
@@ -416,6 +446,7 @@ namespace WeightingWhiteGlue
             this.WeighingType.HeaderText = "称重类型";
             this.WeighingType.Name = "WeighingType";
             this.WeighingType.ReadOnly = true;
+            this.WeighingType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WaterRate
             // 
@@ -424,6 +455,7 @@ namespace WeightingWhiteGlue
             this.WaterRate.HeaderText = "注水量";
             this.WaterRate.Name = "WaterRate";
             this.WaterRate.ReadOnly = true;
+            this.WaterRate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WeighingWeightBegin
             // 
@@ -432,6 +464,7 @@ namespace WeightingWhiteGlue
             this.WeighingWeightBegin.HeaderText = "开始称重重量";
             this.WeighingWeightBegin.Name = "WeighingWeightBegin";
             this.WeighingWeightBegin.ReadOnly = true;
+            this.WeighingWeightBegin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WeighingWeightEnd
             // 
@@ -440,6 +473,7 @@ namespace WeightingWhiteGlue
             this.WeighingWeightEnd.HeaderText = "结束称重重量";
             this.WeighingWeightEnd.Name = "WeighingWeightEnd";
             this.WeighingWeightEnd.ReadOnly = true;
+            this.WeighingWeightEnd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WeighingTimeBegin
             // 
@@ -447,6 +481,7 @@ namespace WeightingWhiteGlue
             this.WeighingTimeBegin.HeaderText = "开始称重时间";
             this.WeighingTimeBegin.Name = "WeighingTimeBegin";
             this.WeighingTimeBegin.ReadOnly = true;
+            this.WeighingTimeBegin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // WeighingTimeEnd
             // 
@@ -454,11 +489,7 @@ namespace WeightingWhiteGlue
             this.WeighingTimeEnd.HeaderText = "结束称重时间";
             this.WeighingTimeEnd.Name = "WeighingTimeEnd";
             this.WeighingTimeEnd.ReadOnly = true;
-            // 
-            // autoReadTimer
-            // 
-            this.autoReadTimer.Interval = 1000;
-            this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
+            this.WeighingTimeEnd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainForm
             // 
@@ -523,6 +554,10 @@ namespace WeightingWhiteGlue
         private Label lblWaterRate;
         private NumericUpDown numWaterRate;
         private Button btnReadEnd;
+        private Label lblShift;
+        private ComboBox cmbShift;
+        private Label lblSite;
+        private ComboBox cmbSite;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Plant;
         private DataGridViewTextBoxColumn MachineId;
@@ -533,7 +568,5 @@ namespace WeightingWhiteGlue
         private DataGridViewTextBoxColumn WeighingWeightEnd;
         private DataGridViewTextBoxColumn WeighingTimeBegin;
         private DataGridViewTextBoxColumn WeighingTimeEnd;
-        private Label lblShift;
-        private ComboBox cmbShift;
     }
 }

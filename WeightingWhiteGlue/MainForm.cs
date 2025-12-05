@@ -43,8 +43,7 @@ namespace WeightingWhiteGlue
         public MainForm()
         {
             InitializeComponent();
-            InitShift();
-            InitPlantMachine();
+            InitCMB();
             InitializeSerialPort();
             lblPort.Text = "串口:" + Utils.GetParameterValue("Port");
             lblBaud.Text = "波特率:" + Utils.GetParameterValue("BaudRate");
@@ -83,9 +82,27 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                     }
                 }
             }
+            if (this.dgvRecords.Columns[e.ColumnIndex].Name == "WeighingType")
+            {
+                if (e.Value != null)
+                {
+                    switch (e.Value)
+                    {
+                        case "wn":
+                            e.Value = "净重";
+                            break;
+                        case "ww":
+                            e.Value = "毛重";
+                            break;
+                        case "wt":
+                            e.Value = "皮重";
+                            break;
+                    }
+                }
+            }
         }
 
-        private void InitPlantMachine()
+        private void InitCMB()
         {
             // 厂区初始化
             string plant = Utils.GetParameterValue("Plant") ?? "W6";
@@ -97,10 +114,6 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
             List<string> machineList = Utils.GetParameterValue($"{plant}ConvertMachine")?.Split('|').ToList();
             cmbConvertMachine.Items.Clear();
             cmbConvertMachine.Items.AddRange(machineList?.ToArray());
-        }
-
-        private void InitShift()
-        {
             // 班次初始化
             cmbShift.Items.Clear();
             List<ComboBoxItem> shiftList = new List<ComboBoxItem>
@@ -110,6 +123,11 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
             };
             cmbShift.DataSource = shiftList;
             cmbShift.SelectedIndex = 0;
+            // 站点初始化
+            cmbSite.Items.Clear();
+            List<string> siteList = Utils.GetParameterValue("Sites")?.Split('|').ToList();
+            cmbSite.Items.AddRange(siteList?.ToArray());
+            cmbSite.SelectedIndex = 0;
         }
 
         private void InitializeSerialPort()
@@ -143,6 +161,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 cmbPlant.Enabled = false;
                 cmbConvertMachine.Enabled = false;
                 cmbShift.Enabled = false;
+                cmbSite.Enabled = false;
                 btnConnect.Enabled = false;
                 btnDisconnect.Enabled = true;
                 btnZero.Enabled = true;
@@ -177,6 +196,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 cmbPlant.Enabled = true;
                 cmbConvertMachine.Enabled = true;
                 cmbShift.Enabled = true;
+                cmbSite.Enabled = true;
                 btnConnect.Enabled = true;
                 btnDisconnect.Enabled = false;
                 btnZero.Enabled = false;
