@@ -34,9 +34,11 @@ namespace WeightingWhiteGlue
         {
             this.components = new System.ComponentModel.Container();
             this.gbConnection = new System.Windows.Forms.GroupBox();
+            this.lblSite = new System.Windows.Forms.Label();
             this.lblShift = new System.Windows.Forms.Label();
             this.lblConvertMachine = new System.Windows.Forms.Label();
             this.lblPlant = new System.Windows.Forms.Label();
+            this.cmbSite = new System.Windows.Forms.ComboBox();
             this.cmbShift = new System.Windows.Forms.ComboBox();
             this.cmbConvertMachine = new System.Windows.Forms.ComboBox();
             this.cmbPlant = new System.Windows.Forms.ComboBox();
@@ -61,8 +63,6 @@ namespace WeightingWhiteGlue
             this.gbRecords = new System.Windows.Forms.GroupBox();
             this.dgvRecords = new System.Windows.Forms.DataGridView();
             this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
-            this.cmbSite = new System.Windows.Forms.ComboBox();
-            this.lblSite = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Plant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MachineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,6 +73,7 @@ namespace WeightingWhiteGlue
             this.WeighingWeightEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Site = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
@@ -100,6 +101,15 @@ namespace WeightingWhiteGlue
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "连接设置";
             // 
+            // lblSite
+            // 
+            this.lblSite.AutoSize = true;
+            this.lblSite.Location = new System.Drawing.Point(8, 53);
+            this.lblSite.Name = "lblSite";
+            this.lblSite.Size = new System.Drawing.Size(47, 12);
+            this.lblSite.TabIndex = 7;
+            this.lblSite.Text = "加糊点:";
+            // 
             // lblShift
             // 
             this.lblShift.AutoSize = true;
@@ -126,6 +136,14 @@ namespace WeightingWhiteGlue
             this.lblPlant.Size = new System.Drawing.Size(35, 12);
             this.lblPlant.TabIndex = 7;
             this.lblPlant.Text = "厂区:";
+            // 
+            // cmbSite
+            // 
+            this.cmbSite.FormattingEnabled = true;
+            this.cmbSite.Location = new System.Drawing.Point(56, 50);
+            this.cmbSite.Name = "cmbSite";
+            this.cmbSite.Size = new System.Drawing.Size(49, 20);
+            this.cmbSite.TabIndex = 6;
             // 
             // cmbShift
             // 
@@ -371,7 +389,8 @@ namespace WeightingWhiteGlue
             this.WeighingWeightBegin,
             this.WeighingWeightEnd,
             this.WeighingTimeBegin,
-            this.WeighingTimeEnd});
+            this.WeighingTimeEnd,
+            this.Site});
             this.dgvRecords.Location = new System.Drawing.Point(10, 20);
             this.dgvRecords.Name = "dgvRecords";
             this.dgvRecords.ReadOnly = true;
@@ -385,23 +404,6 @@ namespace WeightingWhiteGlue
             // 
             this.autoReadTimer.Interval = 1000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
-            // 
-            // cmbSite
-            // 
-            this.cmbSite.FormattingEnabled = true;
-            this.cmbSite.Location = new System.Drawing.Point(56, 50);
-            this.cmbSite.Name = "cmbSite";
-            this.cmbSite.Size = new System.Drawing.Size(49, 20);
-            this.cmbSite.TabIndex = 6;
-            // 
-            // lblSite
-            // 
-            this.lblSite.AutoSize = true;
-            this.lblSite.Location = new System.Drawing.Point(8, 53);
-            this.lblSite.Name = "lblSite";
-            this.lblSite.Size = new System.Drawing.Size(47, 12);
-            this.lblSite.TabIndex = 7;
-            this.lblSite.Text = "加糊点:";
             // 
             // Id
             // 
@@ -491,6 +493,15 @@ namespace WeightingWhiteGlue
             this.WeighingTimeEnd.ReadOnly = true;
             this.WeighingTimeEnd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // Site
+            // 
+            this.Site.DataPropertyName = "Site";
+            this.Site.FillWeight = 60F;
+            this.Site.HeaderText = "加糊点";
+            this.Site.Name = "Site";
+            this.Site.ReadOnly = true;
+            this.Site.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -568,5 +579,6 @@ namespace WeightingWhiteGlue
         private DataGridViewTextBoxColumn WeighingWeightEnd;
         private DataGridViewTextBoxColumn WeighingTimeBegin;
         private DataGridViewTextBoxColumn WeighingTimeEnd;
+        private DataGridViewTextBoxColumn Site;
     }
 }

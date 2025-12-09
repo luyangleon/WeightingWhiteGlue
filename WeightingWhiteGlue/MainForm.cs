@@ -61,7 +61,7 @@ namespace WeightingWhiteGlue
         {
             // 绑定DataGridView
             DataTable ds = SA.GetDataTable($@"SELECT TOP 1000 
-[Id],[Plant],[MachineId],[Shift],[WeighingType],[WaterRate],[WeighingWeightBegin],[WeighingWeightEnd],[WeighingTimeBegin],[WeighingTimeEnd] 
+[Id],[Plant],[MachineId],[Shift],[WeighingType],[WaterRate],[WeighingWeightBegin],[WeighingWeightEnd],[WeighingTimeBegin],[WeighingTimeEnd],[Site]
 FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("DBConnStr"));
             dgvRecords.DataSource = ds;
         }
@@ -596,15 +596,16 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
 
             if (_isBebinWeighing) // 开始称重 新增
             {
-                string insertSql = string.Format(@"INSERT INTO WeighingRecord (Plant,MachineId,Shift,WeighingType,WaterRate,WeighingWeightBegin,WeighingTimeBegin) 
- VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY();"
+                string insertSql = string.Format(@"INSERT INTO WeighingRecord (Plant,MachineId,Shift,WeighingType,WaterRate,WeighingWeightBegin,WeighingTimeBegin,Site) 
+ VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}'); SELECT SCOPE_IDENTITY();"
                     , this.cmbPlant.Text
                     , this.cmbConvertMachine.Text
                     , (this.cmbShift.SelectedItem as ComboBoxItem).Value
                     , _currentWeightType
                     , this.numWaterRate.Value
                     , Convert.ToDecimal(_currentWeight)
-                    , DateTime.Now);
+                    , DateTime.Now
+                    , this.cmbSite.Text);
                 string addRes = SA.ExecuteScalar(insertSql, Utils.GetParameterValue("DBConnStr")).ToString();
                 if (int.TryParse(addRes, out int newId))
                 {
