@@ -33,6 +33,7 @@ namespace WeightingWhiteGlue
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.gbConnection = new System.Windows.Forms.GroupBox();
             this.lblSite = new System.Windows.Forms.Label();
             this.lblShift = new System.Windows.Forms.Label();
@@ -62,7 +63,6 @@ namespace WeightingWhiteGlue
             this.lblStatus = new System.Windows.Forms.Label();
             this.gbRecords = new System.Windows.Forms.GroupBox();
             this.dgvRecords = new System.Windows.Forms.DataGridView();
-            this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Plant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MachineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +74,7 @@ namespace WeightingWhiteGlue
             this.WeighingTimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeighingTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Site = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.autoReadTimer = new System.Windows.Forms.Timer(this.components);
             this.gbConnection.SuspendLayout();
             this.gbDisplay.SuspendLayout();
             this.gbOperation.SuspendLayout();
@@ -400,11 +401,6 @@ namespace WeightingWhiteGlue
             this.dgvRecords.TabIndex = 0;
             this.dgvRecords.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvRecords_CellFormatting);
             // 
-            // autoReadTimer
-            // 
-            this.autoReadTimer.Interval = 1000;
-            this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
-            // 
             // Id
             // 
             this.Id.DataPropertyName = "Id";
@@ -502,6 +498,11 @@ namespace WeightingWhiteGlue
             this.Site.ReadOnly = true;
             this.Site.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // autoReadTimer
+            // 
+            this.autoReadTimer.Interval = 1000;
+            this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -514,6 +515,7 @@ namespace WeightingWhiteGlue
             this.Controls.Add(this.gbOperation);
             this.Controls.Add(this.gbDisplay);
             this.Controls.Add(this.gbConnection);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "白糊称重";
