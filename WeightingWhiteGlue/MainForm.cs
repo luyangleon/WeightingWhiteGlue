@@ -25,7 +25,7 @@ namespace WeightingWhiteGlue
 
         private bool _isReadingData = false;
         private DateTime _lastReadTime = DateTime.MinValue;
-        private bool _isBebinWeighing = false;
+        private bool _isBeginWeighing = false;
         private int? _lastId = 0;
         private WeighingRecord _lastRecord = null;
 
@@ -60,9 +60,12 @@ namespace WeightingWhiteGlue
         private void UpdateDGV()
         {
             // 绑定DataGridView
-            DataTable ds = SA.GetDataTable($@"SELECT TOP 1000 
+            DataTable ds = SA.GetDataTable($@"
+SELECT TOP 1000 
 [Id],[Plant],[MachineId],[Shift],[WeighingType],[WaterRate],[WeighingWeightBegin],[WeighingWeightEnd],[WeighingTimeBegin],[WeighingTimeEnd],[Site]
-FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("DBConnStr"));
+FROM WeighingRecord 
+Order By WeighingTimeBegin DESC"
+, Utils.GetParameterValue("DBConnStr"));
             dgvRecords.DataSource = ds;
         }
 
@@ -242,7 +245,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 if (!_isReadingData)
                 {
                     // 开始称重的标记
-                    _isBebinWeighing = true;
+                    _isBeginWeighing = true;
                     //btnRead.Enabled = false;
                     //btnReadEnd.Enabled = true;
                     // 开始读取：设置读取状态，准备接收数据
@@ -270,7 +273,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
             {
                 if (!_isReadingData)
                 {
-                    _isBebinWeighing = false;
+                    _isBeginWeighing = false;
                     //btnRead.Enabled = true;
                     //btnReadEnd.Enabled = false;
                     // 开始读取：设置读取状态，准备接收数据
@@ -513,7 +516,7 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                     UpdateLblStatus($"解析数据错误: {ex.Message}", Color.Red);
                 });
                 // TODO
-                //if (_isBebinWeighing)
+                //if (_isBeginWeighing)
                 //{
                 //    btnRead.Enabled = false;
                 //    btnReadEnd.Enabled = true;
@@ -581,9 +584,12 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
 
         private void AutoReadTimer_Tick(object sender, EventArgs e)
         {
-            // 设置读取状态，准备接收数据
-            _isReadingData = true;
-            SendCommand("R");
+            if (!_isReadingData)
+            {
+                // 设置读取状态，准备接收数据
+                _isReadingData = true;
+                SendCommand("R");
+            }
         }
 
         private void SaveToDGV()
@@ -594,10 +600,13 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
                 return;
             }
 
-            if (_isBebinWeighing) // 开始称重 新增
+            if (_isBeginWeighing) // 开始称重 新增
             {
-                string insertSql = string.Format(@"INSERT INTO WeighingRecord (Plant,MachineId,Shift,WeighingType,WaterRate,WeighingWeightBegin,WeighingTimeBegin,Site) 
- VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}'); SELECT SCOPE_IDENTITY();"
+                string insertSql = string.Format(@"
+INSERT INTO WeighingRecord 
+(Plant,MachineId,Shift,WeighingType,WaterRate,WeighingWeightBegin,WeighingTimeBegin,Site) 
+VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}'); 
+SELECT SCOPE_IDENTITY();"
                     , this.cmbPlant.Text
                     , this.cmbConvertMachine.Text
                     , (this.cmbShift.SelectedItem as ComboBoxItem).Value
@@ -616,9 +625,10 @@ FROM WeighingRecord Order By WeighingTimeBegin DESC", Utils.GetParameterValue("D
             }
             else // 结束称重 修改
             {
-                string updateSql = string.Format("UPDATE WeighingRecord SET WeighingWeightEnd='{0}',WeighingTimeEnd='{1}' WHERE Id='{2}'"
+                string updateSql = string.Format("UPDATE WeighingRecord SET WeighingWeightEnd='{0}',WeighingTimeEnd='{1}',WaterRate='{2}' WHERE Id='{3}'"
                     , Convert.ToDecimal(_currentWeight)
                     , DateTime.Now
+                    , this.numWaterRate.Value
                     , _lastId);
                 int upRes = SA.ExecuteNonQuery(updateSql, Utils.GetParameterValue("DBConnStr"));
                 UpdateLblStatus($"状态: 记录已更新", Color.Green);
