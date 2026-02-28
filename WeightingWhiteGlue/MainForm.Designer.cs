@@ -352,7 +352,6 @@ namespace WeightingWhiteGlue
             this.chkAutoRead.TabIndex = 3;
             this.chkAutoRead.Text = "自动读取";
             this.chkAutoRead.UseVisualStyleBackColor = true;
-            this.chkAutoRead.Visible = false;
             this.chkAutoRead.CheckedChanged += new System.EventHandler(this.ChkAutoRead_CheckedChanged);
             // 
             // lblStatus
@@ -500,7 +499,7 @@ namespace WeightingWhiteGlue
             // 
             // autoReadTimer
             // 
-            this.autoReadTimer.Interval = 1000;
+            this.autoReadTimer.Interval = 6000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
             // 
             // MainForm
