@@ -27,8 +27,10 @@ namespace WeightingWhiteGlue
         private bool _isReadingData = false;
         private DateTime _lastReadTime = DateTime.MinValue;
         private bool _isBeginWeighing = false;
-        private int? _lastId = 0;
-        private WeighingRecord _lastRecord = null;
+
+        private readonly static string _lastAutoWeightFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LastAutoWeight.txt");
+        private readonly static string _lastIdFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LastId.txt");
+        private static string _lastId = ReadLastId();
 
         private SQLDBHelper SA = new SQLDBHelper();
         private OdbcHelper OA = new OdbcHelper();
@@ -617,8 +619,7 @@ Order By WeighingTimeBegin DESC"
         /// <param name="weight"></param>
         private static void WriteLastAutoWeight(double weight)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LastAutoWeight.txt");
-            File.WriteAllText(filePath, weight.ToString());
+            File.WriteAllText(_lastAutoWeightFile, weight.ToString());
         }
         /// <summary>
         /// 从本地文件读取上次称重的重量
@@ -626,10 +627,9 @@ Order By WeighingTimeBegin DESC"
         /// <returns></returns>
         private static double ReadLastAutoWeight()
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LastAutoWeight.txt");
-            if (File.Exists(filePath))
+            if (File.Exists(_lastAutoWeightFile))
             {
-                string content = File.ReadAllText(filePath);
+                string content = File.ReadAllText(_lastAutoWeightFile);
                 if (double.TryParse(content, out double weight))
                 {
                     return weight;
@@ -637,6 +637,29 @@ Order By WeighingTimeBegin DESC"
             }
             return 0;
         }
+        /// <summary>
+        /// 记录上次称重Id到本地文件
+        /// </summary>
+        /// <param name="weight"></param>
+        private static void WriteLastId(string id)
+        {
+            _lastId = id;
+            File.WriteAllText(_lastIdFile, id);
+        }
+        /// <summary>
+        /// 从本地读取上次称重Id
+        /// </summary>
+        /// <returns></returns>
+        private static string ReadLastId()
+        {
+            if (File.Exists(_lastIdFile))
+            {
+                string content = File.ReadAllText(_lastIdFile);
+                return content;
+            }
+            return "";
+        }
+
         private void AutoSave()
         {
             // 0.查询最后一次称重记录
@@ -671,6 +694,10 @@ ORDER BY WeighingTimeBegin DESC";
                         // 如果大于上次重量，则更新最后一次称重记录
                         AutoUpdate(lastWeight);
                         AutoInsert();
+                    }
+                    else
+                    {
+                        return; // 本次重量没有增加，不处理（防止 WriteLastAutoWeight）
                     }
                 }
                 else
@@ -708,7 +735,8 @@ SELECT SCOPE_IDENTITY();"
             string addRes = SA.ExecuteScalar(insertSql, Utils.GetParameterValue("DBConnStr")).ToString();
             if (int.TryParse(addRes, out int newId))
             {
-                _lastId = newId; // 设置最后一次新增记录的ID
+                //_lastId = newId; // 设置最后一次新增记录的ID
+                WriteLastId(newId.ToString());
             }
             UpdateLblStatus($"状态: 记录已新增", Color.Green);
             Log($"{addRes}记录已新增: 开始称重重量 {_currentWeight}{_currentUnit}");
@@ -762,7 +790,8 @@ SELECT SCOPE_IDENTITY();"
                 string addRes = SA.ExecuteScalar(insertSql, Utils.GetParameterValue("DBConnStr")).ToString();
                 if (int.TryParse(addRes, out int newId))
                 {
-                    _lastId = newId;
+                    //_lastId = newId; // 设置最后一次新增记录的ID
+                    WriteLastId(newId.ToString());
                 }
                 UpdateLblStatus($"状态: 记录已新增", Color.Green);
                 Log($"{addRes}记录已新增: 开始称重重量 {_currentWeight}{_currentUnit}");

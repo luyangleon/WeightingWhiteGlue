@@ -499,7 +499,7 @@ namespace WeightingWhiteGlue
             // 
             // autoReadTimer
             // 
-            this.autoReadTimer.Interval = 6000;
+            this.autoReadTimer.Interval = 600000;
             this.autoReadTimer.Tick += new System.EventHandler(this.AutoReadTimer_Tick);
             // 
             // MainForm
